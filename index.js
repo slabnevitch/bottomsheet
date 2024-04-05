@@ -6,7 +6,7 @@ export class BottomSheet {
   // required
   parents = '';
   html = '';
-
+  elemSelector = '.frontleBottomSheet';
   // options
   height = 50;
   startY = 0;
@@ -32,6 +32,7 @@ export class BottomSheet {
 
     this.parents = parents;
     this.html = html;
+    this.elem = document.querySelector(elemSelector);
   }
 
   async open() {
@@ -49,96 +50,39 @@ export class BottomSheet {
     this.status[sheetId].mousedown = false;
     this.status[sheetId].mouseup = false;
 
-    // add default sheet css
-    if (document.getElementById('frontleBottomSheetCSS') === null) {
-      const sheetCSSElement = document.createElement('style');
-      sheetCSSElement.setAttribute('id', 'frontleBottomSheetCSS');
-      sheetCSSElement.innerHTML = `
-        .frontleBottomSheet{
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-        .frontleBottomSheetBackground{
-            position: relative;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background: #000000;
-            opacity: 0;
-            transition: opacity ease 0.4s 0s;
-        }
-        .frontleBottomSheetContents{
-            position: absolute;
-            width: 100%;
-            bottom: 0vh;
-            margin: 0 auto;
-            padding: 0rem 1.5rem 0rem 1.5rem;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            box-sizing: border-box;
-            background: #ffffff;
-            overflow: hidden;
-        }
-        .frontleBottomSheetBar{
-            position: relative;
-            display: block;
-            padding-top: 0.5rem;
-            padding-bottom: 1rem;
-        }
-        .frontleBottomSheetBarLine{
-            position: relative;
-            display: block;
-            margin: 0 auto;
-            width: 2.5rem;
-            height: 0.3125rem;
-            border-radius: 10px;
-            background: #c4c4c4;
-        }
-        .frontleBottomSheetHtml{
-            position: relative;
-            display: block;
-            width: 100%;
-            height: calc(100% - 2.75rem);
-            overflow: scroll;
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
-        }
-        .frontleBottomSheetHtml::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera*/
-        }
-      `;
-      document.head.insertBefore(sheetCSSElement, document.head.childNodes[0]);
-    }
-
     // set html
-    const html = /* html */ `
-      <div class="frontleBottomSheetBackground ${this.backgroundClass}" style="z-index: ${zIndex + 1}"></div>
+    // const html = /* html */ `
+    //   <div class="frontleBottomSheetBackground ${this.backgroundClass}" style="z-index: ${zIndex + 1}"></div>
 
-      <div class="frontleBottomSheetContents ${this.contentsClass}" style="
-        max-height: ${this.height}vh;
-        height: ${this.height}vh;
-        z-index: ${zIndex + 2};
-        bottom: -${this.height}vh;
-        transition: bottom ease 0.4s 0s;
-      ">
-        <div class="frontleBottomSheetBar">
-          <div class="frontleBottomSheetBarLine"></div>
-        </div>
-        <div class="frontleBottomSheetHtml">${this.html}</div>
-      </div>
-    `;
+    //   <div class="frontleBottomSheetContents ${this.contentsClass}" style="
+    //     max-height: ${this.height}vh;
+    //     height: ${this.height}vh;
+    //     z-index: ${zIndex + 2};
+    //     bottom: -${this.height}vh;
+        
+    //   ">
+    //     <div class="frontleBottomSheetBar">
+    //       <div class="frontleBottomSheetBarLine"></div>
+    //     </div>
+    //     <div class="frontleBottomSheetHtml">${this.html}</div>
+    //   </div>
+    // `;
 
     // add sheet
-    const sheetElement = document.createElement('div');
+    const sheetElement = this.elem;
+
+    sheetElement.querySelector('.frontleBottomSheetBackground').classList.add(this.backgroundClass);
+    sheetElement.querySelector('.frontleBottomSheetContents').classList.add(this.this.contentsClass);
+    sheetElement.querySelector('.frontleBottomSheetContents').style = `max-height: ${this.height}vh;
+        height: ${this.height}vh;
+        z-index: ${zIndex + 2};
+        bottom: -${this.height}vh;`;
+
     sheetElement.setAttribute('id', sheetId);
-    sheetElement.className = `frontleBottomSheet ${this.sheetClass}`;
-    sheetElement.innerHTML = html;
+    sheetElement.classList.add(this.sheetClass);
+    // sheetElement.innerHTML = html;
     sheetElement.style.zIndex = String(zIndex);
-    document.querySelector(this.parents).append(sheetElement);
+    // document.querySelector(this.parents).append(sheetElement);
 
     // run lifecycle
     await this.beforeOpen(sheetId);
