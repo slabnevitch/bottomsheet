@@ -46,10 +46,10 @@
 		</div>
 
 		<!-- sheet -->
-		<div class="frontleBottomSheet " >
-			<div class="frontleBottomSheetBackground "></div>
+		<div class="frontleBottomSheet" >
+			<div class="frontleBottomSheetBackground"></div>
 
-			<div class="frontleBottomSheetContents ">
+			<div class="frontleBottomSheetContents">
 				<div class="frontleBottomSheetBar">
 					<div class="frontleBottomSheetBarLine"></div>
 				</div>
@@ -92,37 +92,37 @@
 			bottomSheet.open();
 
 		};
-		// bottomSheet.open();
+		bottomSheet.open();
 
 		// исп-е. hammer.js для открытия модалки свайпом снизу
-		var mc = new Hammer(document.querySelector('.sheet-handle'));
-		mc.get('swipe').set({ velocity: 0.80, direction: Hammer.DIRECTION_VERTICAL });
-		mc.on('swipe', function(ev) {
-		    console.log(ev);
-		});
+		// var mc = new Hammer(document.querySelector('.sheet-handle'));
+		// mc.get('swipe').set({ velocity: 0.80, direction: Hammer.DIRECTION_VERTICAL });
+		// mc.on('swipe', function(ev) {
+		//     console.log(ev);
+		// });
 
 
-		mc.get('pan').set({threshold: 0, pointers: 0, velocity: 0.80, direction: Hammer.DIRECTION_VERTICAL });
-		mc.on("panmove", function(event) {
-			console.log(event.deltaY);
-			if(event.direction == 8){
-				if(Math.abs(event.deltaY) > 200){
-				document.querySelector('.sheet-handle').style.transform = 'translateY(0px)';
+		// mc.get('pan').set({threshold: 0, pointers: 0, velocity: 0.80, direction: Hammer.DIRECTION_VERTICAL });
+		// mc.on("panmove", function(event) {
+		// 	console.log(event.deltaY);
+		// 	if(event.direction == 8){
+		// 		if(Math.abs(event.deltaY) > 200){
+		// 		document.querySelector('.sheet-handle').style.transform = 'translateY(0px)';
 
-				}else{
-				document.querySelector('.sheet-handle').style.transform = 'translateY('+event.deltaY+'px)';
-				}
+		// 		}else{
+		// 		document.querySelector('.sheet-handle').style.transform = 'translateY('+event.deltaY+'px)';
+		// 		}
 				
-			}
-		});
-		mc.on("panend", function(event) {
-			console.log(event.direction);
-			if(event.direction == 8){// если свайп происходит снизу вверх - открываем модалку
-				bottomSheet.open();
-				document.querySelector('.sheet-handle').style.transform = 'translateY(0px)';
-			}
-			// sheet.style.maxHeight = Math.abs(event.deltaY) + vm.lastPosition + 'px';
-		});
+		// 	}
+		// });
+		// mc.on("panend", function(event) {
+		// 	console.log(event.direction);
+		// 	if(event.direction == 8){// если свайп происходит снизу вверх - открываем модалку
+		// 		bottomSheet.open();
+		// 		document.querySelector('.sheet-handle').style.transform = 'translateY(0px)';
+		// 	}
+		// 	// sheet.style.maxHeight = Math.abs(event.deltaY) + vm.lastPosition + 'px';
+		// });
 	</script>
 </body>
 </html>

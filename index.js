@@ -10,10 +10,13 @@ export class BottomSheet {
   // options
   height = 50;
   startY = 0;
-  sheetClass = '';
-  contentsClass = '';
-  backgroundClass = '';
+  sheetClass = 'huy';
+  contentsClass = 'huy';
+  backgroundClass = 'huy';
   backgroundClickExit = true;
+  id = String(BottomSheet.makeID(32));
+  sheetId = 'sheet_' + this.id;
+  zIndex = findHighestZIndex(this.parents);
 
   beforeOpen = () => {};
   afterOpen = () => {};
@@ -32,65 +35,48 @@ export class BottomSheet {
 
     this.parents = parents;
     this.html = html;
-    this.elem = document.querySelector(elemSelector);
+    this.elem = document.querySelector(this.elemSelector);
+    
+
+    // get z-index
+
+    // set sheet id
+
+    // set status
+    this.status[this.sheetId] = {};
+    this.status[this.sheetId].mousedown = false;
+    this.status[this.sheetId].mouseup = false;
+
+    // add sheet
+    const sheetElement = this.elem;
+  
+
+    sheetElement.querySelector('.frontleBottomSheetBackground').classList.add(this.backgroundClass);
+    sheetElement.querySelector('.frontleBottomSheetContents').classList.add(this.contentsClass);
+    sheetElement.querySelector('.frontleBottomSheetContents').style = `max-height: ${this.height}vh;
+        height: ${this.height}vh;
+        z-index: ${this.zIndex + 2};
+        bottom: -${this.height}vh;`;
+
+    sheetElement.setAttribute('id', this.sheetId);
+    sheetElement.classList.add(this.sheetClass);
+    // sheetElement.innerHTML = html;
+    sheetElement.style.zIndex = String(this.zIndex);
+    // document.querySelector(this.parents).append(sheetElement);
   }
 
   async open() {
     // create id
-    const id = String(BottomSheet.makeID(32));
-
-    // get z-index
-    const zIndex = findHighestZIndex(this.parents);
-
-    // set sheet id
-    const sheetId = 'sheet_' + id;
-
-    // set status
-    this.status[sheetId] = {};
-    this.status[sheetId].mousedown = false;
-    this.status[sheetId].mouseup = false;
-
-    // set html
-    // const html = /* html */ `
-    //   <div class="frontleBottomSheetBackground ${this.backgroundClass}" style="z-index: ${zIndex + 1}"></div>
-
-    //   <div class="frontleBottomSheetContents ${this.contentsClass}" style="
-    //     max-height: ${this.height}vh;
-    //     height: ${this.height}vh;
-    //     z-index: ${zIndex + 2};
-    //     bottom: -${this.height}vh;
-        
-    //   ">
-    //     <div class="frontleBottomSheetBar">
-    //       <div class="frontleBottomSheetBarLine"></div>
-    //     </div>
-    //     <div class="frontleBottomSheetHtml">${this.html}</div>
-    //   </div>
-    // `;
-
-    // add sheet
-    const sheetElement = this.elem;
-
-    sheetElement.querySelector('.frontleBottomSheetBackground').classList.add(this.backgroundClass);
-    sheetElement.querySelector('.frontleBottomSheetContents').classList.add(this.this.contentsClass);
-    sheetElement.querySelector('.frontleBottomSheetContents').style = `max-height: ${this.height}vh;
-        height: ${this.height}vh;
-        z-index: ${zIndex + 2};
-        bottom: -${this.height}vh;`;
-
-    sheetElement.setAttribute('id', sheetId);
-    sheetElement.classList.add(this.sheetClass);
-    // sheetElement.innerHTML = html;
-    sheetElement.style.zIndex = String(zIndex);
-    // document.querySelector(this.parents).append(sheetElement);
 
     // run lifecycle
-    await this.beforeOpen(sheetId);
+    await this.beforeOpen(this.heetId);
 
     // start sheet animation
     setTimeout(() => {
       // background opacity
       const sheetBackground = sheetElement.querySelector('.frontleBottomSheetBackground');
+        console.log(sheetBackground)
+
       if (sheetBackground !== null) {
         sheetBackground.style.opacity = '0.4';
       }
