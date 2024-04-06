@@ -34,18 +34,30 @@
 			background: #c4c4c4;
 
 		}
+		/*.skot{
+			position: fixed;
+			z-index: 100;
+			left: 0;
+			top: 50px;
+		}*/
 	</style>
 </head>
 <body>
 	<div id="myContainer">
 		<h1>Skotnik</h1>
-		<button>open</button>
+		<button class="skot">open</button>
 
 		<div class="sheet-content">
 			<h2>iOS Style Bottom Sheet Demo</h2><p class="lead">A lightweight and easy-to-use solution for creating iOS-style bottom sheets that slide up from the bottom of the screen and display content to the user.</p><button id="closeButton">close</button>
 		</div>
 
 		<!-- sheet -->
+
+		<!-- <div class="sheet-handle">
+			<div class="sheet-handle__line"></div>
+			<h2>iOS Style Bottom Sheet Demo</h2><p class="lead">A lightweight and easy-to-use solution for creating iOS-style bottom sheets that slide up from the bottom of the screen and display content to the user.</p><button id="closeButton">close</button>
+		</div> -->
+	</div>
 		<div class="frontleBottomSheet" >
 			<div class="frontleBottomSheetBackground"></div>
 
@@ -58,12 +70,6 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- <div class="sheet-handle">
-			<div class="sheet-handle__line"></div>
-			<h2>iOS Style Bottom Sheet Demo</h2><p class="lead">A lightweight and easy-to-use solution for creating iOS-style bottom sheets that slide up from the bottom of the screen and display content to the user.</p><button id="closeButton">close</button>
-		</div> -->
-	</div>
 	<script src="frontle_bottomsheet.min.js"></script>
 	<!-- <script src="use-gesture-vanilla.cjs.dev.js"></script> -->
 	<script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
@@ -72,10 +78,10 @@
 		
 			// console.log(Gesture);
 		const bottomSheet = new BottomSheet(
-		  "#myContainer",
+		  "body",
 		  document.querySelector('.sheet-content').innerHTML//получение внутреннего хтмл модалки из скрытого дива
 		);
-			// console.log(bottomSheet.html)
+
 		bottomSheet.height = 100;
 		bottomSheet.startY = valVh - 100;//минимальная высота выдвинутого листа
 		bottomSheet.beforeOpen = (sheetID) => {
@@ -85,6 +91,7 @@
 		bottomSheet.afterEnd = (sheetID) => { 
 			console.log('after closed');
 		 	document.body.style.overflow = 'auto';
+		 	document.querySelector('.frontleBottomSheet').style.visibility = 'hidden';
 		}
 		
 		//открытие модалки по нажатию  на кнопку
@@ -92,7 +99,7 @@
 			bottomSheet.open();
 
 		};
-		bottomSheet.open();
+		// bottomSheet.open();
 
 		// исп-е. hammer.js для открытия модалки свайпом снизу
 		// var mc = new Hammer(document.querySelector('.sheet-handle'));

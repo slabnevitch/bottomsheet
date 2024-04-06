@@ -4,6 +4,7 @@
     height: 100%;
     top: 0;
     left: 0;
+/*    visibility: hidden;*/
 }
 .frontleBottomSheetBackground{
     position: relative;
@@ -18,7 +19,7 @@
 .frontleBottomSheetContents{
     position: absolute;
     width: 100%;
-    bottom: 0vh;
+    bottom: calc(-100vh - 50px) !important;
     margin: 0 auto;
     padding: 0rem 1.5rem 0rem 1.5rem;
     border-top-left-radius: 5px;

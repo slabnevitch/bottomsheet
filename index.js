@@ -6,9 +6,9 @@ export class BottomSheet {
   // required
   parents = '';
   html = '';
-  elemSelector = '.frontleBottomSheet';
+
   // options
-  height = 50;
+  height = 100;
   startY = 0;
   sheetClass = 'huy';
   contentsClass = 'huy';
@@ -17,6 +17,8 @@ export class BottomSheet {
   id = String(BottomSheet.makeID(32));
   sheetId = 'sheet_' + this.id;
   zIndex = findHighestZIndex(this.parents);
+  elem = document.querySelector( '.frontleBottomSheet');
+  sheetElement = this.elem;
 
   beforeOpen = () => {};
   afterOpen = () => {};
@@ -35,46 +37,46 @@ export class BottomSheet {
 
     this.parents = parents;
     this.html = html;
-    this.elem = document.querySelector(this.elemSelector);
     
 
     // get z-index
 
     // set sheet id
 
-    // set status
-    this.status[this.sheetId] = {};
-    this.status[this.sheetId].mousedown = false;
-    this.status[this.sheetId].mouseup = false;
+   
 
     // add sheet
-    const sheetElement = this.elem;
   
-
-    sheetElement.querySelector('.frontleBottomSheetBackground').classList.add(this.backgroundClass);
-    sheetElement.querySelector('.frontleBottomSheetContents').classList.add(this.contentsClass);
-    sheetElement.querySelector('.frontleBottomSheetContents').style = `max-height: ${this.height}vh;
+    console.log('height '  + this.height)
+    this.sheetElement.querySelector('.frontleBottomSheetBackground').classList.add(this.backgroundClass);
+    this.sheetElement.querySelector('.frontleBottomSheetContents').classList.add(this.contentsClass);
+    this.sheetElement.querySelector('.frontleBottomSheetContents').style = `max-height: ${this.height}vh;
         height: ${this.height}vh;
         z-index: ${this.zIndex + 2};
         bottom: -${this.height}vh;`;
 
-    sheetElement.setAttribute('id', this.sheetId);
-    sheetElement.classList.add(this.sheetClass);
+    this.sheetElement.setAttribute('id', this.sheetId);
+    this.sheetElement.classList.add(this.sheetClass);
     // sheetElement.innerHTML = html;
-    sheetElement.style.zIndex = String(this.zIndex);
+    this.sheetElement.style.zIndex = String(this.zIndex);
     // document.querySelector(this.parents).append(sheetElement);
   }
 
   async open() {
     // create id
-
+    this.sheetElement.style.visibility = 'visible';
     // run lifecycle
     await this.beforeOpen(this.heetId);
+
+     // set status
+    this.status[this.sheetId] = {};
+    this.status[this.sheetId].mousedown = false;
+    this.status[this.sheetId].mouseup = false;
 
     // start sheet animation
     setTimeout(() => {
       // background opacity
-      const sheetBackground = sheetElement.querySelector('.frontleBottomSheetBackground');
+      const sheetBackground = this.sheetElement.querySelector('.frontleBottomSheetBackground');
         console.log(sheetBackground)
 
       if (sheetBackground !== null) {
@@ -82,7 +84,7 @@ export class BottomSheet {
       }
 
       // contents pos move up
-      const sheetContents = sheetElement.querySelector('.frontleBottomSheetContents');
+      const sheetContents = this.sheetElement.querySelector('.frontleBottomSheetContents');
       if (sheetContents !== null) {
         sheetContents.style.bottom = `${this.startY}vh`;
       }
@@ -91,54 +93,56 @@ export class BottomSheet {
     // end sheet animation
     setTimeout(async () => {
       // set mouse down event
-      const sheetBar = sheetElement.querySelector('.frontleBottomSheetBar');
+      const sheetBar = this.sheetElement.querySelector('.frontleBottomSheetBar');
       if (sheetBar !== null) {
-        this.status[sheetId].mouseDownEvent = e => {
-          e.preventDefault();
-          this.eventMouseDown(sheetId);
-        };
-        sheetBar.addEventListener('mousedown', this.status[sheetId].mouseDownEvent, false);
 
-        this.status[sheetId].touchStartEvent = () => {
-          this.eventMouseDown(sheetId);
+        console.log( this.status[this.sheetId])
+        this.status[this.sheetId].mouseDownEvent = e => {
+          e.preventDefault();
+          this.eventMouseDown(this.sheetId);
         };
-        sheetBar.addEventListener('touchstart', this.status[sheetId].touchStartEvent, false);
+        sheetBar.addEventListener('mousedown', this.status[this.sheetId].mouseDownEvent, false);
+
+        this.status[this.sheetId].touchStartEvent = () => {
+          this.eventMouseDown(this.sheetId);
+        };
+        sheetBar.addEventListener('touchstart', this.status[this.sheetId].touchStartEvent, false);
       }
 
-      const sheetContents = sheetElement.querySelector('.frontleBottomSheetContents');
+      const sheetContents = this.sheetElement.querySelector('.frontleBottomSheetContents');
 
       // set mouse up event
-      this.status[sheetId].mouseUpEvent = e => {
+      this.status[this.sheetId].mouseUpEvent = e => {
         e.preventDefault();
-        this.eventMouseUp(e, sheetId, sheetContents);
+        this.eventMouseUp(e, this.sheetId, sheetContents);
       };
-      document.addEventListener('mouseup', this.status[sheetId].mouseUpEvent, false);
+      document.addEventListener('mouseup', this.status[this.sheetId].mouseUpEvent, false);
 
-      this.status[sheetId].touchEndEvent = e => {
-        this.eventMouseUp(e.changedTouches[0], sheetId, sheetContents);
+      this.status[this.sheetId].touchEndEvent = e => {
+        this.eventMouseUp(e.changedTouches[0], this.sheetId, sheetContents);
       };
-      document.addEventListener('touchend', this.status[sheetId].touchEndEvent, false);
+      document.addEventListener('touchend', this.status[this.sheetId].touchEndEvent, false);
 
       // set mouse move event
-      this.status[sheetId].mouseMoveEvent = e => {
+      this.status[this.sheetId].mouseMoveEvent = e => {
         e.preventDefault();
-        this.eventMouseMove(e, sheetId, sheetContents);
+        this.eventMouseMove(e, this.sheetId, sheetContents);
       };
-      document.addEventListener('mousemove', this.status[sheetId].mouseMoveEvent, false);
+      document.addEventListener('mousemove', this.status[this.sheetId].mouseMoveEvent, false);
 
-      this.status[sheetId].touchMoveEvent = e => {
-        this.eventMouseMove(e.changedTouches[0], sheetId, sheetContents);
+      this.status[this.sheetId].touchMoveEvent = e => {
+        this.eventMouseMove(e.changedTouches[0], this.sheetId, sheetContents);
       };
-      document.addEventListener('touchmove', this.status[sheetId].touchMoveEvent, false);
+      document.addEventListener('touchmove', this.status[this.sheetId].touchMoveEvent, false);
 
       // set close event
       if (this.backgroundClickExit === true) {
-        const sheetBackground = sheetElement.querySelector('.frontleBottomSheetBackground');
+        const sheetBackground = this.sheetElement.querySelector('.frontleBottomSheetBackground');
         if (sheetBackground !== null) {
           sheetBackground.addEventListener(
             'click',
             () => {
-              this.close(sheetId);
+              this.close(this.sheetId);
             },
             false,
           );
@@ -151,14 +155,15 @@ export class BottomSheet {
       }
 
       // run lifecycle
-      await this.afterOpen(sheetId);
+      await this.afterOpen(this.sheetId);
     }, 0.4 * 1000 + 100);
 
-    return sheetId;
+    return this.sheetId;
   }
 
   async close(sheetID) {
     // run lifecycle
+
     await this.beforeEnd(sheetID);
 
     const sheetElement = document.getElementById(sheetID);
@@ -185,12 +190,13 @@ export class BottomSheet {
       document.removeEventListener('mouseup', this.status[sheetID].mouseUpEvent);
       document.removeEventListener('touchend', this.status[sheetID].touchEndEvent);
 
-      delete this.status[sheetID];
+      // delete this.status[sheetID];
 
       // remove sheet
-      if (sheetElement !== null) sheetElement.remove();
+      // if (sheetElement !== null) sheetElement.remove();
 
       // run lifecycle
+
       await this.afterEnd(sheetID);
     }, 0.4 * 1000);
   }
