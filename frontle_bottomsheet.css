@@ -1,0 +1,26 @@
+.sheet-content{
+	visibility: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+.sheet-handle{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding-top: 0.5rem;
+	padding-bottom: 1rem;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	box-sizing: border-box;
+	background: #ffffff;
+}
+.sheet-handle__line{
+	margin: 0 auto;
+	width: 2.5rem;
+	height: 0.3125rem;
+	border-radius: 10px;
+	background: #c4c4c4;
+
+}
